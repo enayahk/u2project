@@ -13,5 +13,7 @@ public class Main {
         System.out.println("What card would you like to draw from your deck?");
         int draw = scan.nextInt();
         c.playerDraws(draw);
+        c.botDraws();
+        c.printUserSet();
     }
 }

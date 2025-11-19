@@ -12,11 +12,12 @@ public class CardGame {
 
     private List<Integer> botSet = new ArrayList<>(6);
 
-    private boolean winner = false;
+    private int winner = 0;
     private boolean validChoice = false;
     private int cardsLeft;
     private int userChoice = 0;
     private int botChoice = 0;
+    private int tableCard = 0;
 
 
     public List<Integer> getUserSet() {
@@ -32,27 +33,33 @@ public class CardGame {
         for (int i = 1; i <= 20; i++) {
             allCards.add(i);
         }
+        int randomCard = 0;
 
         for (int i = 0; i < 12; i++) {
-            int randomCard = (int)(Math.random()*allCards.size());
+            randomCard = (int)(Math.random()*allCards.size());
             if (i % 2 == 0) {
-                System.out.println("Player one gets: " + allCards.get(randomCard));
+
                 userSet.add(allCards.get(randomCard));
             }
             else {
 //                System.out.println("Player two gets: " + allCards.get(randomCard));
                 botSet.add(allCards.get(randomCard));
+//                System.out.println("botset:" +botSet);
             }
             allCards.remove(randomCard);
 
 
+
+
         }
+        tableCard = Integer.valueOf(allCards.get(randomCard));
+        System.out.println("table card:" +tableCard);
     }
     // will be called every time the user's turn arrives
 
     public void printUserSet() {
         System.out.println("Your card set is:" + userSet);
-        if (!winner) {
+        if (winner <= 0 ) {
             System.out.println("You can't see your opponent's cards yet, though!");
         } else {
             System.out.println("Your card set is: " +userSet+", and your opponent's set is: " +botSet);
@@ -66,17 +73,36 @@ public class CardGame {
 
 
     public void playerDraws(int draw) {
+
         if (userSet.contains(draw))
         {
             validChoice = true;
-        }
-        if (validChoice == true){
             userChoice = draw;
             System.out.println("Card drawn!");
+            userSet.remove(Integer.valueOf(draw));
 
         } else {
-            System.out.println("That's not a card in your deck. Try again.");
+            System.out.print("That's not a card in your deck. Try again: ");
+            Scanner s = new Scanner(System.in);
+            int newDraw = s.nextInt();
+            s.nextLine();
+            playerDraws(newDraw);
         }
     }
 
+
+    public void botDraws () {
+        int randomChoice = (int) (Math.random()*botSet.size());
+        botChoice = botSet.get(randomChoice);
+        botSet.remove(Integer.valueOf(botChoice));
+//        System.out.println(botChoice);
+
+    }
+
+//    public boolean gameTime() {
+//        if (Math.abs())
+//
+//        return winner;
+//    }
 }
+

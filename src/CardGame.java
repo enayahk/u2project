@@ -49,22 +49,26 @@ public class CardGame {
 
 
         }
-        tableCard = Integer.valueOf(allCards.get(randomCard));
-        System.out.println("The challenger card appears! Its value is: " + tableCard);
+
     }
     // will be called every time the user's turn arrives
 
+    public void tableCard(){
+        int randomCard = (int) (Math.random() * allCards.size());
+        tableCard = Integer.valueOf(allCards.get(randomCard));
+        System.out.println(" ");
+        System.out.println("The challenger card appears! Its value is: " + tableCard);
+    }
     public void printUserSet() {
         System.out.println(" ");
         System.out.println("Your card set is:" + userSet);
-        if (winner <= 0) {
             System.out.println("You can't see your opponent's cards yet, though!");
-        } else {
-            System.out.println("Your card set is: " + userSet + ", and your opponent's set is: " + botSet);
-        }
+
 
 
     }
+
+
 
 
     public void playerDraws(int draw) {
@@ -84,6 +88,10 @@ public class CardGame {
         }
     }
 
+    public int cardNum () {
+        return userSet.size();
+
+    }
 
     public void botDraws() {
         int randomChoice = (int) (Math.random() * botSet.size());
@@ -91,15 +99,26 @@ public class CardGame {
         botSet.remove(Integer.valueOf(botChoice));
 //        System.out.println(botChoice);
         System.out.println("Your opponent draws a card!");
-        System.out.println("Its value is: " +botChoice);
+//        System.out.println("Its value is: " +botChoice);
 
     }
 
+    public void printBotChoice () {
+
+        System.out.println("Your opponent drew: " +botChoice);
+    }
+
+    public void printUserChoice() {
+        System.out.println("You drew: " +userChoice);
+    }
+
+
+
     public int gameTime() {
 
-        if (Math.abs(20 - botChoice) > Math.abs(20 - userChoice)) {
+        if (Math.abs(botChoice - 20) > Math.abs(userChoice-20)) {
             winner = -1;
-        } else if (Math.abs(20 - botChoice) < Math.abs(20 - userChoice)) {
+        } else if (Math.abs(botChoice - 20) < Math.abs(userChoice-20)) {
             winner = 1;
         } else {
             winner = 0;

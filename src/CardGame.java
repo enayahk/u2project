@@ -62,8 +62,11 @@ public class CardGame {
     public void printUserSet() {
         System.out.println(" ");
         System.out.println("Your card set is:" + userSet);
+        if (winner <= 0) {
             System.out.println("You can't see your opponent's cards yet, though!");
-
+        } else {
+            System.out.println("Your card set is: " + userSet + ", and your opponent's set is: " + botSet);
+        }
 
 
     }
@@ -116,9 +119,9 @@ public class CardGame {
 
     public int gameTime() {
 
-        if (Math.abs(botChoice - 20) > Math.abs(userChoice-20)) {
+        if (Math.abs(20 - botChoice) < Math.abs(20 - userChoice)) {
             winner = -1;
-        } else if (Math.abs(botChoice - 20) < Math.abs(userChoice-20)) {
+        } else if (Math.abs(20 - botChoice) > Math.abs(20 - userChoice)) {
             winner = 1;
         } else {
             winner = 0;

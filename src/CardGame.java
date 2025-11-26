@@ -17,10 +17,29 @@ public class CardGame {
     private int userChoice = 0;
     private int botChoice = 0;
     private int tableCard = 0;
+    public boolean nightmareMode = false;
+
+    public int getUserChoice() {
+    return userChoice;
+    }
 
 
+
+    public boolean getnightmareMode() {
+        return nightmareMode;
+    }
     public List<Integer> getUserSet() {
         return userSet;
+    }
+
+    public void nightmareToggle(String y) {
+
+        if (y.contains("y")) {
+            System.out.println("Good luck..");
+            nightmareMode = true;
+        } else {
+            System.out.println("A wise decision.");
+        }
     }
 
     // creates initial cardsets, for now length 6 -- might change mind
@@ -52,6 +71,11 @@ public class CardGame {
 
     }
     // will be called every time the user's turn arrives
+
+    public int randomPlayerCard() {
+        int randomCard = (int) (Math.random() * userSet.size());
+        return Integer.valueOf(userSet.get(randomCard));
+    }
 
     public void tableCard(){
         int randomCard = (int) (Math.random() * allCards.size());
@@ -114,14 +138,14 @@ public class CardGame {
     public void printUserChoice() {
         System.out.println("You drew: " +userChoice);
     }
-
+;
 
 
     public int gameTime() {
 
-        if (Math.abs(20 - botChoice) < Math.abs(20 - userChoice)) {
+        if (Math.abs(20 - (tableCard + botChoice)) < Math.abs(20 - (userChoice + tableCard))) {
             winner = -1;
-        } else if (Math.abs(20 - botChoice) > Math.abs(20 - userChoice)) {
+        } else if (Math.abs(20 - (tableCard + botChoice)) > Math.abs(20 - (userChoice + tableCard))) {
             winner = 1;
         } else {
             winner = 0;
@@ -131,4 +155,3 @@ public class CardGame {
         return winner;
     }
 }
-

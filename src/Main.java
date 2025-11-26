@@ -1,4 +1,5 @@
 import javax.smartcardio.Card;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -15,16 +16,13 @@ public class Main {
         System.out.println("The closest to 20 wins one point. If you run out of cards or your opponent reaches 3 points before you, you lose.");
         System.out.println("--------------");
         System.out.println("There exists a nightmare difficulty if you dare... Will you take the chance? y/n: ");
-        if ((scan.nextLine()).contains("y")) {
-            System.out.println("Good luck..");
-        } else if ((scan.nextLine()).contains("n")) {
-            System.out.println("A wise decision.");
-        }
-             c.initializeSets();
-//        for (int i = 6; i > 0; i--) {
-        while (winCond > 0 && points <= 3 && c.cardNum() > 0) {
-//            while (points > 3 && (c.cardNum()) > 0) {
-                c.tableCard();
+        c.nightmareToggle(scan.nextLine());
+        c.initializeSets();
+        while (winCond > 0 && points < 3 && c.cardNum() > 0) {
+            c.tableCard();
+
+//           need to separate this to only trigger if nightmare mode is off...
+            if (!c.getnightmareMode()) {
                 c.printUserSet();
                 System.out.println("--------------");
                 System.out.println("What card would you like to draw from your deck?");
@@ -33,31 +31,64 @@ public class Main {
                 System.out.println("--------------");
                 c.botDraws();
 //        c.printUserSet();
-                System.out.println("");
-                c.printBotChoice();
-                c.printUserChoice();
-                if (c.gameTime() == 1) {
-                    System.out.println("Your card was closer to 20. +1 point.");
-                } else if (c.gameTime() == 0) {
-                    System.out.println("Draw. No points awarded.");
-                } else if (c.gameTime() == -1) {
-                    System.out.println("Your opponent's card was closer to 20. -1 point.");
-                }
+                System.out.println();
+            } else {
+                System.out.println("Oops -- puzzle time!");
+                System.out.println("A mysterious force has drawn a card for you already.");
+                System.out.println("Can you figure out its value?");
+                System.out.println();
+                int target = c.randomPlayerCard();
+                int a = (int) (Math.random() * 7 + 1);
+                int b = (int) (Math.random() * 3 + 1);
+                int val = a * target + b;
 
-            points =+ c.gameTime();
+                System.out.println("Solve for x: " + a + "x + " + b + " = " + val);
+                System.out.print("Your answer: ");
+                int answer = scan.nextInt();
+                if (answer == target) {
+                    System.out.println("Correct! Drawing card..");
+                    System.out.println();
+                    c.playerDraws(target);
+                    c.botDraws();
+                } else {
+                    System.out.println("Wrong. You lose a point.");
+                    points--;
+
+
+                }
+            }
+
+
+
+            c.printBotChoice();
+            c.printUserChoice();
+            if (c.gameTime() == 1) {
+                System.out.println("Your card was closer to 20. +1 point.");
+                points++;
+            } else if (c.gameTime() == 0) {
+                System.out.println("Draw. No points awarded.");
+            } else if (c.gameTime() == -1) {
+                System.out.println("Your opponent's card was closer to 20. -1 point.");
+                points--;
+            }
+
+//            System.out.println("points:" +points);
+            winCond--;
         }
 
         System.out.println("--------------");
-        System.out.println("Your total points:" +points);
+        System.out.println(" ");
+        System.out.println("Game over!");
+        System.out.println("Your total points: " +points);
         if (points < 3) {
             System.out.println("You lost to your opponent. An unfortunate failure.");
         } else if (points == 3) {
             System.out.println("A winner!");
         }
 
-        }
 
 
 
+}
 
-    }
+}
